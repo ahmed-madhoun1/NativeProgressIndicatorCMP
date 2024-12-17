@@ -15,8 +15,8 @@ jobs:
         gradle: [8.3]
     runs-on: ${{ matrix.os }}
     env:
-      GITHUB_ACTOR: ${{ secrets.GITHUB_ACTOR }}
-      GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      GITHUB_ACTOR: ${{ secrets.GB_ACTOR }}
+      GITHUB_TOKEN: ${{ secrets.GB_TOKEN }}
     steps:
       - uses: actions/checkout@v3
       - uses: actions/setup-java@v3
