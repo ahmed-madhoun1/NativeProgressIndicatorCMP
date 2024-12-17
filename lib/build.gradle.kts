@@ -5,7 +5,9 @@ plugins {
     id("org.jetbrains.dokka")
     id("com.vanniktech.maven.publish") // This will be used to publish to GitHub Packages
 }
-
+kotlin {
+    androidTarget() // <-- please register this Android target
+}
 kotlin {
     androidTarget {
         publishLibraryVariants("release")
