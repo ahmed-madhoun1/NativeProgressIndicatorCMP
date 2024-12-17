@@ -1,13 +1,13 @@
+import com.vanniktech.maven.publish.SonatypeHost
+
 plugins {
     kotlin("multiplatform")
     id("com.android.library")
     id("org.jetbrains.compose")
     id("org.jetbrains.dokka")
-    id("com.vanniktech.maven.publish") // This will be used to publish to GitHub Packages
+    id("com.vanniktech.maven.publish")
 }
-kotlin {
-    androidTarget() // <-- please register this Android target
-}
+
 kotlin {
     androidTarget {
         publishLibraryVariants("release")
@@ -56,7 +56,7 @@ kotlin {
 
 android {
     compileSdk = (findProperty("android.compileSdk") as String).toInt()
-    namespace = "com.am.nativeprogressindicatorcmp"
+    namespace = "com.myapplication.common"
 
     sourceSets["main"].manifest.srcFile("src/androidMain/AndroidManifest.xml")
     sourceSets["main"].res.srcDirs("src/androidMain/res")
@@ -75,12 +75,9 @@ android {
 }
 
 mavenPublishing {
-    // Publishing to GitHub Packages
-    publishToGitHubPackages {
-        token.set(findProperty("gpr.token"))  // Fetch the token from gradle.properties
-        username.set(findProperty("gpr.user"))  // Fetch the username from gradle.properties
-    }
-
+//    publishToMavenCentral(SonatypeHost.DEFAULT)
+    // or when publishing to https://s01.oss.sonatype.org
+    publishToMavenCentral(SonatypeHost.S01, automaticRelease = true)
     signAllPublications()
     coordinates("com.am.nativeprogressindicatorcmp", "nativeprogressindicatorcmp-runtime", "1.0.0")
 
