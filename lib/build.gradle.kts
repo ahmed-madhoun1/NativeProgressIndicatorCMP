@@ -73,49 +73,37 @@ android {
         jvmToolchain(17)
     }
 }
-publishing {
-    publications {
-        create<MavenPublication>("maven") {
-            from(components["android"])
 
-            groupId = "com.am.nativeprogressindicatorcmp" // Updated package name
-            artifactId = "NativeProgressIndicatorCMP"
-            version = "1.0.0" // Version of your library
+mavenPublishing {
+//    publishToMavenCentral(SonatypeHost.DEFAULT)
+    // or when publishing to https://s01.oss.sonatype.org
+    publishToMavenCentral(SonatypeHost.S01, automaticRelease = true)
+    signAllPublications()
+    coordinates("com.am.nativeprogressindicatorcmp", "nativeprogressindicatorcmp-runtime", "1.0.0")
 
-            pom {
-                name.set("NativeProgressIndicatorCMP")
-                description.set("A Compose Multiplatform library for native progress indicators")
-                url.set("https://github.com/ahmed-madhoun1/NativeProgressIndicatorCMP")
-
-                scm {
-                    url.set("https://github.com/ahmed-madhoun1/NativeProgressIndicatorCMP.git")
-                    connection.set("scm:git:git://github.com/ahmed-madhoun1/NativeProgressIndicatorCMP.git")
-                    developerConnection.set("scm:git:git@github.com:ahmed-madhoun1/NativeProgressIndicatorCMP.git")
-                }
-                licenses {
-                    license {
-                        name.set("Apache 2.0")
-                        url.set("http://www.apache.org/licenses/LICENSE-2.0")
-                    }
-                }
-                developers {
-                    developer {
-                        id.set("ahmed-madhoun1")
-                        name.set("Ahmed Madhoun")
-                        email.set("ahmed2madhoun2@gmail.com") // Update this with your email address
-                    }
-                }
+    pom {
+        name.set(project.name)
+        description.set("A description of what my library does.")
+        inceptionYear.set("2024")
+        url.set("https://github.com/ahmed-madhoun1/NativeProgressIndicatorCMP/")
+        licenses {
+            license {
+                name.set("The Apache License, Version 2.0")
+                url.set("http://www.apache.org/licenses/LICENSE-2.0.txt")
+                distribution.set("http://www.apache.org/licenses/LICENSE-2.0.txt")
             }
         }
-    }
-
-    repositories {
-        maven {
-            url = uri("https://maven.pkg.github.com/ahmed-madhoun1/NativeProgressIndicatorCMP")
-            credentials {
-                username = project.findProperty("gpr.user") ?: System.getenv("USERNAME_GITHUB")
-                password = project.findProperty("gpr.token") ?: System.getenv("TOKEN_GITHUB")
+        developers {
+            developer {
+                id.set("ahmed-madhoun1")
+                name.set("Ahmed Madhoun")
+                url.set("https://github.com/ahmed-madhoun1/")
             }
+        }
+        scm {
+            url.set("https://github.com/ahmed-madhoun1/NativeProgressIndicatorCMP/")
+            connection.set("scm:git:git://github.com/ahmed-madhoun1/NativeProgressIndicatorCMP.git")
+            developerConnection.set("scm:git:ssh://git@github.com/ahmed-madhoun1/NativeProgressIndicatorCMP.git")
         }
     }
 }
