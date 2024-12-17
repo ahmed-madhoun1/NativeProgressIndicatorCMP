@@ -1,8 +1,9 @@
 plugins {
-    kotlin("multiplatform") version "1.9.21" // Replace with your Kotlin version
-    id("com.android.library") version "8.1.0" // Replace with your Android plugin version
-    id("org.jetbrains.compose") version "1.5.1" // Replace with your Compose Multiplatform plugin version
-    id("com.vanniktech.maven.publish") version "0.25.3" // Replace with your Maven Publish plugin version
+    kotlin("multiplatform")
+    id("com.android.library")
+    id("org.jetbrains.compose")
+    id("org.jetbrains.dokka")
+    id("com.vanniktech.maven.publish")
 }
 
 kotlin {
