@@ -1,3 +1,5 @@
+import com.vanniktech.maven.publish.SonatypeHost
+
 plugins {
     kotlin("multiplatform")
     id("com.android.library")
@@ -73,43 +75,35 @@ android {
 }
 
 mavenPublishing {
+//    publishToMavenCentral(SonatypeHost.DEFAULT)
+    // or when publishing to https://s01.oss.sonatype.org
+    publishToMavenCentral(SonatypeHost.S01, automaticRelease = true)
     signAllPublications()
-    coordinates("com.am.nativeprogressindicatorcmp", "nativeprogressindicatorcmp-runtime", "1.0.0")
+    coordinates("com.example.mylibrary", "mylibrary-runtime", "1.0.0")
 
     pom {
         name.set(project.name)
-        description.set("A simple Kotlin Multiplatform library to show native progress indicators on Android and iOS.")
-        inceptionYear.set("2024")
-        url.set("https://github.com/ahmed-madhoun1/nativeprogressindicatorcmp/")
+        description.set("A description of what my library does.")
+        inceptionYear.set("2023")
+        url.set("https://github.com/username/mylibrary/")
         licenses {
             license {
                 name.set("The Apache License, Version 2.0")
                 url.set("http://www.apache.org/licenses/LICENSE-2.0.txt")
-                distribution.set("repo")
+                distribution.set("http://www.apache.org/licenses/LICENSE-2.0.txt")
             }
         }
         developers {
             developer {
-                id.set("ahmed-madhoun1")
-                name.set("Ahmed Madhoun")
-                url.set("https://github.com/ahmed-madhoun1/")
+                id.set("username")
+                name.set("User Name")
+                url.set("https://github.com/username/")
             }
         }
         scm {
-            url.set("https://github.com/ahmed-madhoun1/nativeprogressindicatorcmp/")
-            connection.set("scm:git:git://github.com/ahmed-madhoun1/nativeprogressindicatorcmp.git")
-            developerConnection.set("scm:git:ssh://git@github.com/ahmed-madhoun1/nativeprogressindicatorcmp.git")
-        }
-    }
-
-    repositories {
-        maven {
-            name = "GitHubPackages"
-            url = uri("https://maven.pkg.github.com/ahmed-madhoun1/NativeProgressIndicatorCMP")
-            credentials {
-                username = findProperty("gpr.user") as String? ?: System.getenv("GITHUB_ACTOR")
-                password = findProperty("gpr.token") as String? ?: System.getenv("GITHUB_TOKEN")
-            }
+            url.set("https://github.com/username/mylibrary/")
+            connection.set("scm:git:git://github.com/username/mylibrary.git")
+            developerConnection.set("scm:git:ssh://git@github.com/username/mylibrary.git")
         }
     }
 }
