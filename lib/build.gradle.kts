@@ -1,9 +1,8 @@
 plugins {
-    kotlin("multiplatform")
-    id("com.android.library")
-    id("org.jetbrains.compose")
-    id("org.jetbrains.dokka")
-    id("com.vanniktech.maven.publish")
+    kotlin("multiplatform") version "1.9.10" // Replace with your Kotlin version
+    id("com.android.library") version "8.1.0" // Replace with your Android plugin version
+    id("org.jetbrains.compose") version "1.5.1" // Replace with your Compose Multiplatform plugin version
+    id("com.vanniktech.maven.publish") version "0.25.3" // Replace with your Maven Publish plugin version
 }
 
 kotlin {
@@ -32,11 +31,7 @@ kotlin {
                 implementation(compose.material)
             }
         }
-        val androidMain by getting {
-            dependencies {
-                // Add Android-specific dependencies if needed
-            }
-        }
+        val androidMain by getting
         val iosX64Main by getting
         val iosArm64Main by getting
         val iosSimulatorArm64Main by getting
@@ -46,16 +41,12 @@ kotlin {
             iosArm64Main.dependsOn(this)
             iosSimulatorArm64Main.dependsOn(this)
         }
-        val desktopMain by getting {
-            dependencies {
-                // Add Desktop-specific dependencies if needed
-            }
-        }
+        val desktopMain by getting
     }
 }
 
 android {
-    compileSdk = (findProperty("android.compileSdk") as String).toInt()
+    compileSdk = 33 // Replace with your compile SDK version
     namespace = "com.am.nativeprogressindicatorcmp"
 
     sourceSets["main"].manifest.srcFile("src/androidMain/AndroidManifest.xml")
@@ -63,7 +54,7 @@ android {
     sourceSets["main"].resources.srcDirs("src/commonMain/resources")
 
     defaultConfig {
-        minSdk = (findProperty("android.minSdk") as String).toInt()
+        minSdk = 21 // Replace with your minimum SDK version
     }
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_17
@@ -73,6 +64,7 @@ android {
         jvmToolchain(17)
     }
 }
+
 mavenPublishing {
     signAllPublications()
     coordinates("com.am.nativeprogressindicatorcmp", "nativeprogressindicatorcmp-runtime", "1.0.0")
