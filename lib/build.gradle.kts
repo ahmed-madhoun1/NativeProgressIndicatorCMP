@@ -1,45 +1,78 @@
+import com.vanniktech.maven.publish.SonatypeHost
+
 plugins {
     kotlin("multiplatform")
-    kotlin("plugin.serialization") // For KMP serialization if needed
     id("com.android.library")
-    id("maven-publish") // For publishing to GitHub
+    id("org.jetbrains.compose")
+    id("org.jetbrains.dokka")
+    id("com.vanniktech.maven.publish")
 }
 
 kotlin {
-    android()
-    iosX64() // iOS simulator target
-    iosArm64() // iOS device target
-    // Add other targets as necessary (such as js, macosX64, etc.)
+    androidTarget {
+        publishLibraryVariants("release")
+    }
+
+    jvm("desktop")
+
+    listOf(
+        iosX64(),
+        iosArm64(),
+        iosSimulatorArm64(),
+    ).forEach { iosTarget ->
+        iosTarget.binaries.framework {
+            baseName = "lib"
+            isStatic = true
+        }
+    }
 
     sourceSets {
         val commonMain by getting {
             dependencies {
-                implementation("androidx.compose.ui:ui:1.5.0") // Use the appropriate Compose version
-                implementation("androidx.compose.material:material:1.5.0") // Material Compose
-                implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.7.2") // Optional Coroutines dependency
+                implementation(compose.runtime)
+                implementation(compose.foundation)
+                implementation(compose.material)
             }
         }
         val androidMain by getting {
             dependencies {
-                implementation("androidx.compose.ui:ui-tooling-preview:1.5.0") // For Android-specific tooling
             }
         }
-        val iosMain by getting {
+        val iosX64Main by getting
+        val iosArm64Main by getting
+        val iosSimulatorArm64Main by getting
+        val iosMain by creating {
+            dependsOn(commonMain)
+            iosX64Main.dependsOn(this)
+            iosArm64Main.dependsOn(this)
+            iosSimulatorArm64Main.dependsOn(this)
+        }
+        val desktopMain by getting {
             dependencies {
-                // Add iOS-specific libraries or dependencies here if needed
             }
         }
     }
 }
 
 android {
-    compileSdk = 34
+    compileSdk = (findProperty("android.compileSdk") as String).toInt()
+    namespace = "com.myapplication.common"
+
+    sourceSets["main"].manifest.srcFile("src/androidMain/AndroidManifest.xml")
+    sourceSets["main"].res.srcDirs("src/androidMain/res")
+    sourceSets["main"].resources.srcDirs("src/commonMain/resources")
+
     defaultConfig {
-        minSdk = 21
-        targetSdk = 34
+        minSdk = (findProperty("android.minSdk") as String).toInt()
+    }
+    compileOptions {
+        sourceCompatibility = JavaVersion.VERSION_17
+        targetCompatibility = JavaVersion.VERSION_17
+    }
+    kotlin {
+        jvmToolchain(17)
     }
 }
-
 publishing {
     publications {
         create<MavenPublication>("maven") {
@@ -69,7 +102,7 @@ publishing {
                     developer {
                         id.set("ahmed-madhoun1")
                         name.set("Ahmed Madhoun")
-                        email.set("your-email@example.com") // Update this with your email address
+                        email.set("ahmed2madhoun2@gmail.com") // Update this with your email address
                     }
                 }
             }
