@@ -73,14 +73,7 @@ android {
         jvmToolchain(17)
     }
 }
-
 mavenPublishing {
-    // Remove or comment out Maven Central publishing
-    // publishToMavenCentral(SonatypeHost.S01, automaticRelease = true)
-
-    // Configure GitHub Packages repository
-    publishToGitHubPackages("https://maven.pkg.github.com/ahmed-madhoun1/NativeProgressIndicatorCMP", "NativeProgressIndicatorCMP")
-
     signAllPublications()
     coordinates("com.am.nativeprogressindicatorcmp", "nativeprogressindicatorcmp-runtime", "1.0.0")
 
@@ -93,7 +86,7 @@ mavenPublishing {
             license {
                 name.set("The Apache License, Version 2.0")
                 url.set("http://www.apache.org/licenses/LICENSE-2.0.txt")
-                distribution.set("http://www.apache.org/licenses/LICENSE-2.0.txt")
+                distribution.set("repo")
             }
         }
         developers {
@@ -109,17 +102,15 @@ mavenPublishing {
             developerConnection.set("scm:git:ssh://git@github.com/ahmed-madhoun1/nativeprogressindicatorcmp.git")
         }
     }
-}
 
-// GitHub authentication setup
-repositories {
-    maven {
-        url = uri("https://maven.pkg.github.com/ahmed-madhoun1/NativeProgressIndicatorCMP")
-        credentials {
-            username = project.findProperty("gpr.user") ?: System.getenv("GITHUB_ACTOR")
-            password = project.findProperty("gpr.token") ?: System.getenv("GITHUB_TOKEN")
+    repositories {
+        maven {
+            name = "GitHubPackages"
+            url = uri("https://maven.pkg.github.com/ahmed-madhoun1/NativeProgressIndicatorCMP")
+            credentials {
+                username = findProperty("gpr.user") as String? ?: System.getenv("GITHUB_ACTOR")
+                password = findProperty("gpr.token") as String? ?: System.getenv("GITHUB_TOKEN")
+            }
         }
     }
 }
-
-// Make sure your GitHub token is set in your environment or in gradle.properties file:
