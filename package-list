@@ -2,6 +2,5 @@ $dokka.format:html-v1
 $dokka.linkExtension:html
 $dokka.location:////PointingToDeclaration/lib/[root]/index.html
 $dokka.location://getPlatformName/#/PointingToDeclaration/lib/[root]/get-platform-name.html
-$dokka.location:com.am.nativeprogressindicatorcmp//PreviewNativeProgressIndicator/#/PointingToDeclaration/lib/com.am.nativeprogressindicatorcmp/[ios]-preview-native-progress-indicator.html
 module:lib
 com.am.nativeprogressindicatorcmp
